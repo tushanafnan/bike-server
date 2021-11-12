@@ -9,10 +9,6 @@ const port = process.env.PORT || 5000;
 
 
 
-
-const serviceAccount = require("./tush-bike-firebase-adminsdk.json");
-
-
 app.use(cors());
 app.use(express.json());
 
