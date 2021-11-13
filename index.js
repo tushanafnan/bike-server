@@ -98,7 +98,7 @@ client.connect(err => {
         app.delete('/deleteBooking/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const result = await ordersCollection.deleteOne(query);
+            const result = await exploreCollection.deleteOne(query);
        
             res.json(result);
           });
