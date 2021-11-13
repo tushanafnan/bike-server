@@ -9,14 +9,17 @@ const port = process.env.PORT || 5000;
 
 
 
-app.use(cors());
-app.use(express.json());
 
 const serviceAccount = require("./tush-bike-firebase-adminsdk.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
+
+
+app.use(cors());
+app.use(express.json());
+
 // tush-bike-firebase-adminsdk.json
 
 async function verifyToken(req, res, next) {
@@ -102,6 +105,13 @@ client.connect(err => {
        
             res.json(result);
           });
+        app.delete('/deleteOrder/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await ordersCollection.deleteOne(query);
+       
+            res.json(result);
+          });
 
           //USER&ADMIN
 
@@ -178,6 +188,19 @@ client.connect(err => {
             const Booking = {
               $set: {
                 status: "Shipped",
+              },
+            };
+            const result = await ordersCollection.updateOne(query, Booking);
+            res.json(result);
+          });
+
+
+          app.put("/approvePayment/:id", async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const Booking = {
+              $set: {
+                payment: "Paid",
               },
             };
             const result = await ordersCollection.updateOne(query, Booking);
