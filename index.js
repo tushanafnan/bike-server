@@ -12,6 +12,11 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+const serviceAccount = require("./tush-bike-firebase-adminsdk.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 // tush-bike-firebase-adminsdk.json
 
 async function verifyToken(req, res, next) {
